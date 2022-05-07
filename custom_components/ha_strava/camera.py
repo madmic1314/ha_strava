@@ -1,3 +1,4 @@
+from __future__ import annotations
 import logging
 from homeassistant.components.camera import Camera
 import requests
@@ -106,7 +107,9 @@ class UrlCam(Camera):
         )
         return False
 
-    def camera_image(self):
+    def camera_image(
+        self, width: int | None = None, height: int | None = None
+    ) -> bytes | None:
         """Return image response."""
         if len(self._urls) == self._url_index:
             _LOGGER.debug("No custom image urls....serving default image")
