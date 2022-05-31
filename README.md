@@ -1,6 +1,7 @@
 # Strava Home Assistant Integration
 
 NOTE: You MUST remove the HA_Strava integration from Home Assistant integration, HACS Integration, HACS Custom Repository and reboot HA before adding this.
+
 This is a fork or a fork :) codingcyclist/ha_strava -> madmic1314/ha_strava -> badguy99/ha_strava
 
 
