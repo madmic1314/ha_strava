@@ -1,20 +1,10 @@
-# Integration Abandonded - do not add to Home Assistant, it will fail
-With the last set of changes required, I've decided to no longer try and maintain integration. There will be no fixes or replies to issues - I leave this here in case anyone wants to fork it and take over.
-
-I used the original integration as I makde a gadget for my wife's running that sat on her desk at home as a bit of fun. She no longer works from home often, so this has fallen into disuse, especially with the drive to save as much electricity as possible, this now sits in a drawer.
-
-I'm a technologist by day, but never learnt to code beyond VBA and a bit of VB - was also pretty good at the OPL Language used on the Psion devices - so dropping into this integration at this level is too much a learning curve. Unfortunately, I have too much else to do outside of work to learn try and Python to the level of understanding required to carry this integration on. The rate of breaking changes that come from the rapid pace of HA means I simply can't keep up - I did try.
-
-Hopefully someone will pick this up and run with it (see what I did there?), else "My battery is low and it’s getting dark." -Opportunity Rover
-
-
 # Strava Home Assistant Integration
 
 NOTE: You MUST remove the HA_Strava integration from Home Assistant integration, HACS Integration, HACS Custom Repository and reboot HA before adding this.
+This is a fork or a fork :) codingcyclist/ha_strava -> madmic1314/ha_strava -> badguy99/ha_strava
+
 
 Custom Component to integrate Activity Data from Strava into Home Assistant.
-
-This is a fork from Codingcyclist <https://github.com/codingcyclist/ha_strava> in an attempt to keep the integration alive - I take no credit for his hard work. I'm not a coder and the best you'll get from me is copy + paste, but happy to accept contributions and help from the community.
 
 ## Features
 
@@ -148,8 +138,6 @@ views:
 ## Contributors
 
 * [@codingcyclist](https://github.com/codingcyclist)
+* [@madmic1314](https://github.com/madmic1314/)
 
 ## TODO
-
---- NONE PLANNED ---
-Learn how to code?
