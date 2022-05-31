@@ -1,10 +1,12 @@
+from __future__ import annotations
+from datetime import timedelta
 import logging
 from homeassistant.components.camera import Camera
 import requests
 import os
 import pickle
-from homeassistant.components.local_file.camera import LocalFile
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.event import async_track_time_interval
 from .const import (
     DOMAIN,
     CONF_PHOTOS_ENTITY,
@@ -17,7 +19,6 @@ from .const import (
     CONFIG_URL_DUMP_FILENAME,
 )
 from hashlib import md5
-from homeassistant.const import EVENT_TIME_CHANGED
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -36,24 +37,23 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     async_add_entities([camera])
 
     def image_update_listener(event):
-        """listen for time update event (every second) and update images if appropriate"""
-        ha_strava_config_entries = hass.config_entries.async_entries(domain=DOMAIN)
+        """Update images when track time interval fires"""
+         camera.rotate_img()
 
-        if len(ha_strava_config_entries) != 1:
-            return -1
-
-        img_update_interval_seconds = int(
-            ha_strava_config_entries[0].options.get(
-                CONF_IMG_UPDATE_INTERVAL_SECONDS,
-                CONF_IMG_UPDATE_INTERVAL_SECONDS_DEFAULT,
-            )
+    ha_strava_config_entries = hass.config_entries.async_entries(domain=DOMAIN)
+    img_update_interval_seconds = int(
+        ha_strava_config_entries[0].options.get(
+            CONF_IMG_UPDATE_INTERVAL_SECONDS,
+            CONF_IMG_UPDATE_INTERVAL_SECONDS_DEFAULT,
         )
-
-        if event.data["now"].second % img_update_interval_seconds == 0:
-            camera.rotate_img()
+    )
 
     hass.data[DOMAIN]["remove_update_listener"].append(
-        hass.bus.async_listen(EVENT_TIME_CHANGED, image_update_listener)
+        async_track_time_interval(
+            hass,
+            image_update_listener,
+            timedelta(seconds=img_update_interval_seconds)
+        )
     )
 
     return
@@ -106,7 +106,9 @@ class UrlCam(Camera):
         )
         return False
 
-    def camera_image(self):
+    def camera_image(
+        self, width: int | None = None, height: int | None = None
+    ) -> bytes | None:
         """Return image response."""
         if len(self._urls) == self._url_index:
             _LOGGER.debug("No custom image urls....serving default image")
